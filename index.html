@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Salam dari Toni</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      font-family: 'Poppins', sans-serif;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-weight: 600;
+      font-size: 2.5rem;
+      margin-bottom: 0.2em;
+      animation: fadeInUp 1.5s ease forwards;
+      opacity: 0;
+    }
+    p.quote {
+      font-weight: 300;
+      font-size: 1.25rem;
+      margin-top: 1em;
+      min-height: 3em;
+      font-style: italic;
+      animation: fadeInUp 1.5s ease forwards;
+      opacity: 0;
+    }
+    .social {
+      margin-top: 2em;
+    }
+    .social a {
+      margin: 0 10px;
+      color: #eee;
+      text-decoration: none;
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .social a:hover {
+      color: #ffcc00;
+    }
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Halo, Terima kasih sudah mampir!</h1>
+  <p class="quote" id="quote"></p>
+  <div class="social">
+    <a href="https://instagram.com/tnk20" target="_blank">📸</a>
+    <a href="https://github.com/tnk20" target="_blank">💻</a>
+  </div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_f93198648f.mp3?filename=calm-ambient-background-music-4379.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const quotes = [
+      "Setiap hari adalah kesempatan baru untuk menjadi lebih baik.",
+      "Jadilah cahaya di tengah kegelapan.",
+      "Kerja keras mengalahkan bakat saat bakat tidak bekerja keras.",
+      "Jangan takut gagal, karena dari kegagalan kita belajar.",
+      "Hidup adalah perjalanan, nikmati setiap langkahnya.",
+    ];
+    let quoteIndex = 0;
+    const quoteEl = document.getElementById('quote');
+    function showQuote() {
+      quoteEl.style.opacity = 0;
+      setTimeout(() => {
+        quoteEl.textContent = quotes[quoteIndex];
+        quoteEl.style.opacity = 1;
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }, 500);
+    }
+    showQuote();
+    setInterval(showQuote, 5000);
+
+    const bgMusic = document.getElementById('bgMusic');
+    window.addEventListener('load', () => {
+      const playPromise = bgMusic.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.body.addEventListener('click', () => {
+            bgMusic.play();
+          }, { once: true });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
