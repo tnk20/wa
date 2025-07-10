@@ -26,6 +26,7 @@
       text-align: center;
       flex-direction: column;
       padding: 20px;
+      cursor: pointer; /* beri tanda klik */
     }
 
     @keyframes gradientBG {
@@ -66,11 +67,6 @@
       min-height: 3em;
     }
 
-    audio {
-      display: none;
-    }
-
-    /* Styling untuk jam keren */
     .clock-container {
       margin-top: 1.5rem;
       padding: 10px 25px;
@@ -94,6 +90,10 @@
       display: inline-block;
       min-width: 280px;
     }
+
+    audio {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -102,10 +102,9 @@
   <p class="quote" id="quote">Menyiapkan kutipan inspiratif...</p>
   <div id="clock" class="clock-container"></div>
 
-  <audio id="bgMusic" autoplay loop>
-  <source src="musik.mp3" type="audio/mpeg" />
-</audio>
-
+  <audio id="bgMusic" loop>
+    <source src="musikku.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
     // Kutipan otomatis
@@ -131,20 +130,7 @@
     showQuote();
     setInterval(showQuote, 5000);
 
-    // Autoplay fix untuk browser yang blokir otomatis
-    const bgMusic = document.getElementById('bgMusic');
-    window.addEventListener('load', () => {
-      const playPromise = bgMusic.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          document.body.addEventListener('click', () => {
-            bgMusic.play();
-          }, { once: true });
-        });
-      }
-    });
-
-    // Update jam realtime dengan format HH:MM:SS — DD/MM/YYYY
+    // Update jam realtime
     function updateClock() {
       const clock = document.getElementById('clock');
       const now = new Date();
@@ -161,6 +147,15 @@
     }
     updateClock();
     setInterval(updateClock, 1000);
+
+    // Musik mulai setelah klik user
+    const bgMusic = document.getElementById('bgMusic');
+    function playMusic() {
+      bgMusic.play().catch(() => {});
+      document.body.removeEventListener('click', playMusic);
+      document.body.style.cursor = 'default'; // hilangkan pointer klik
+    }
+    document.body.addEventListener('click', playMusic);
   </script>
 
 </body>
