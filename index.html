@@ -6,88 +6,105 @@
   <title>Salam dari Toni</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
-    body {
+
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       height: 100vh;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      font-family: 'Poppins', sans-serif;
-      color: #eee;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #2a5298);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
       text-align: center;
+      flex-direction: column;
       padding: 20px;
     }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
     h1 {
+      font-size: 2rem;
       font-weight: 600;
-      font-size: 2.5rem;
-      margin-bottom: 0.2em;
-      animation: fadeInUp 1.5s ease forwards;
-      opacity: 0;
+      margin-bottom: 20px;
     }
-    p.quote {
-      font-weight: 300;
-      font-size: 1.25rem;
-      margin-top: 1em;
-      min-height: 3em;
+
+    .typing {
+      border-right: 2px solid #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(30, end) forwards, blink .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+
+    .quote {
+      font-size: 1.2rem;
       font-style: italic;
-      animation: fadeInUp 1.5s ease forwards;
+      margin-top: 2rem;
       opacity: 0;
+      transition: opacity 0.5s ease;
+      min-height: 3em;
     }
-    .social {
-      margin-top: 2em;
-    }
-    .social a {
-      margin: 0 10px;
-      color: #eee;
-      text-decoration: none;
-      font-size: 1.5rem;
-      transition: color 0.3s ease;
-    }
-    .social a:hover {
-      color: #ffcc00;
-    }
-    @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+
+    audio {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <h1>Halo, Terima kasih sudah mampir!</h1>
-  <p class="quote" id="quote"></p>
-  <div class="social">
-    <a href="https://instagram.com/tnk20" target="_blank">📸</a>
-    <a href="https://github.com/tnk20" target="_blank">💻</a>
-  </div>
+
+  <h1><span class="typing">Halo, Terima kasih sudah mampir!</span></h1>
+  <p class="quote" id="quote">Menyiapkan kutipan inspiratif...</p>
 
   <audio id="bgMusic" autoplay loop>
-  <source src="musik.mp3" type="audio/mpeg" />
-</audio>
-
+    <source src="musikku.mp3" type="audio/mpeg" />
+  </audio>
 
   <script>
+    // Kutipan otomatis
     const quotes = [
-      "Setiap hari adalah kesempatan baru untuk menjadi lebih baik.",
-      "Jadilah cahaya di tengah kegelapan.",
-      "Kerja keras mengalahkan bakat saat bakat tidak bekerja keras.",
-      "Jangan takut gagal, karena dari kegagalan kita belajar.",
-      "Hidup adalah perjalanan, nikmati setiap langkahnya.",
+      "Hidup itu sederhana, tapi kita yang membuatnya rumit.",
+      "Kamu lebih kuat dari yang kamu pikirkan.",
+      "Tetap tenang, dan tetap berproses.",
+      "Tidak ada kegagalan, hanya pembelajaran.",
+      "Setiap hari adalah kesempatan baru."
     ];
-    let quoteIndex = 0;
+    let index = 0;
     const quoteEl = document.getElementById('quote');
+
     function showQuote() {
       quoteEl.style.opacity = 0;
       setTimeout(() => {
-        quoteEl.textContent = quotes[quoteIndex];
+        quoteEl.textContent = quotes[index];
         quoteEl.style.opacity = 1;
-        quoteIndex = (quoteIndex + 1) % quotes.length;
+        index = (index + 1) % quotes.length;
       }, 500);
     }
+
     showQuote();
     setInterval(showQuote, 5000);
 
+    // Autoplay fix untuk browser yang blokir otomatis
     const bgMusic = document.getElementById('bgMusic');
     window.addEventListener('load', () => {
       const playPromise = bgMusic.play();
@@ -100,5 +117,6 @@
       }
     });
   </script>
+
 </body>
 </html>
