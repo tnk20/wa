@@ -102,8 +102,8 @@
   <p class="quote" id="quote">Menyiapkan kutipan inspiratif...</p>
   <div id="clock" class="clock-container"></div>
 
-  <audio id="bgMusic" loop>
-    <source src="musikku.mp3" type="audio/mpeg" />
+  <audio id="bgMusic" autoplay loop>
+    <source src="audio/musik.mp3" type="audio/mpeg" />
   </audio>
 
   <script>
@@ -148,14 +148,8 @@
     updateClock();
     setInterval(updateClock, 1000);
 
-    // Musik mulai setelah klik user
-    const bgMusic = document.getElementById('bgMusic');
-    function playMusic() {
-      bgMusic.play().catch(() => {});
-      document.body.removeEventListener('click', playMusic);
-      document.body.style.cursor = 'default'; // hilangkan pointer klik
-    }
-    document.body.addEventListener('click', playMusic);
+    // Hapus event click untuk playMusic karena sudah autoplay
+    // Jika ingin menambah event lain, bisa ditambahkan di sini
   </script>
 
 </body>
